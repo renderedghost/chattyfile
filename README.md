@@ -47,3 +47,7 @@ Right now it accepts the following file types:
 * Analyse interviews?
 * Find patterns and insights in tabular data?
 * Find bugs in your code?
+
+# Acknowledgements
+
+Inspired by [AutomateMyLife](https://www.youtube.com/@automatemylife00/).

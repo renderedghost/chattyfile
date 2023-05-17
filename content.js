@@ -1,98 +1,137 @@
-// Create the button
-const button = document.createElement("button");
-button.innerText = "Submit File";
-button.style.backgroundColor = "green";
-button.style.color = "white";
-button.style.padding = "3px";
-button.style.border = "none";
-button.style.borderRadius = "3px";
-button.style.margin = "3px";
+// Define CSS as a string
+const styles = `
+:root {
+  --color-success: #19c37d;
+  --color-action: #2563eb;
+  --color-action-hover: #1248c1;
+  --color-error: #ef4146;
+  --surface-primary: #202123;
+  --surface-default: #353740;
+  --surface-secondary: #6e6e80;
+  --text-primary: #202123;
+  --text-default: #353740;
+  --text-secondary: #6e6e80;
+  --text-disabled: #acacbe;
+  --text-primary-inverted: #ffffff;
+  --text-error: var(--color-error)
+}
 
-// Create the progress bar container
-const progressContainer = document.createElement("div");
-progressContainer.style.width = "99%";
-progressContainer.style.height = "5px";
-progressContainer.style.backgroundColor = "grey";
-progressContainer.style.margin = "3px";
-progressContainer.style.borderRadius = "5px";
+.custom-button {
+  background-color: var(--color-action);
+  color: var(--text-primary-inverted);
+  padding: 4px;
+  border: none;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
 
-// Create the progress bar element
-const progressBar = document.createElement("div");
-progressBar.style.width = "0%";
-progressBar.style.height = "100%";
-progressBar.style.backgroundColor = "#32a9db";
-progressContainer.appendChild(progressBar);
+.custom-button:hover {
+  background-color: var(--color-action-hover);
+}
 
-// Create the chunk size input
-const chunkSizeInput = document.createElement("input");
-chunkSizeInput.type = "number";
-chunkSizeInput.min = "1";
-chunkSizeInput.value = "15000";
-chunkSizeInput.style.margin = "3px";
-chunkSizeInput.style.margin = "3px";
-chunkSizeInput.style.width = "80px"; // Set the width of the input element
-chunkSizeInput.style.height = "28px"; // Set the width of the input element
-chunkSizeInput.style.color = "black"; // Set the font color inside the input element
-chunkSizeInput.style.fontSize = "14px"; // Set the font size inside the input element
-// Create the chunk size label
-const chunkSizeLabel = document.createElement("label");
-chunkSizeLabel.innerText = "Character Limit: ";
-chunkSizeLabel.appendChild(chunkSizeInput);
-chunkSizeLabel.style.color = "white"; // Set the font color of the label text
+.progress-container {
+  width: 100%;
+  height: 8px;
+  background-color: var(--surface-secondary);
+  margin-bottom: 8px;
+  border-radius: 2px;
+}
 
-//chunkSizeLabel.style.color = "black";
-chunkSizeLabel.appendChild(chunkSizeInput);
+.progress-bar {
+  width: 0%;
+  height: 100%;
+  background-color: var(--surface-primary);
+}
 
-// Add a click event listener to the button
-button.addEventListener("click", async () => {
-  // Create the input element
+.progress-bar-loading {
+  background-color: var(--color-action);
+}
+
+.progress-bar-complete {
+  background-color: var(--color-success);
+}
+
+.chunk-size-input {
+  // margin-bottom: 8px;
+  margin: 0 8px 8px 8px;
+  width: 128px;
+  color: var(--text-primary-inverted);
+  font-size: 14px;
+  height: 32px;
+  background-color: var(--surface-primary);
+  border-color: var(--surface-primary);
+  border-radius: 4px;
+  padding: 0 8px;
+  border-width: 1px;
+}
+
+.chunk-size-label {
+  font-size: 14px;
+  color: var(--text-disabled);
+}`;
+
+// Create new style element
+const styleElement = document.createElement("style");
+
+// Append the CSS string to the style element
+styleElement.innerHTML = styles;
+
+// Append the style element to the document head
+document.head.appendChild(styleElement);
+
+// UI Creation Functions
+function createButton() {
+  const button = document.createElement("button");
+  button.innerText = "Select File";
+  button.classList.add('custom-button');
+  return button;
+}
+
+function createProgressBar() {
+  const progressContainer = document.createElement("div");
+  progressContainer.classList.add('progress-container');
+
+  const progressBar = document.createElement("div");
+  progressBar.classList.add('progress-bar');
+  progressContainer.appendChild(progressBar);
+
+  return { progressContainer, progressBar };
+}
+
+let chunkSizeInput; // Declare chunkSizeInput as a global variable
+
+function createChunkSizeInput() {
+  chunkSizeInput = document.createElement("input");
+  chunkSizeInput.type = "number";
+  chunkSizeInput.min = "1";
+  chunkSizeInput.max = "15000";
+  chunkSizeInput.value = "15000";
+  chunkSizeInput.classList.add('chunk-size-input');
+
+  const chunkSizeLabel = document.createElement("label");
+  chunkSizeLabel.innerText = "Limit upload to";
+  chunkSizeLabel.appendChild(chunkSizeInput);
+  chunkSizeLabel.classList.add('chunk-size-label');
+
+  const maxLabel = document.createElement("label");
+  maxLabel.innerText = "characters at a time. Maximum 15000.";
+  maxLabel.classList.add('chunk-size-label');
+  chunkSizeLabel.appendChild(maxLabel);
+
+  return chunkSizeLabel;
+}
+
+// Event Handlers
+async function handleButtonClick(progressBar) {
   const input = document.createElement("input");
   input.type = "file";
   input.accept = ".txt,.md,.js,.py,.html,.css,.json,.csv";
-
-  // Add a change event listener to the input element
   input.addEventListener("change", async () => {
-    // Reset progress bar once a new file is inserted
-    progressBar.style.width = "0%";
-    progressBar.style.backgroundColor = "#32a9db";
-
-    // Read the file as text
-    const file = input.files[0];
-    const text = await file.text();
-
-    // Get the chunk size from the input element
-    const chunkSize = parseInt(chunkSizeInput.value);
-
-    // Split the text into chunks of the specified size
-    const numChunks = Math.ceil(text.length / chunkSize);
-    for (let i = 0; i < numChunks; i++) {
-      const chunk = text.slice(i * chunkSize, (i + 1) * chunkSize);
-
-      // Submit the chunk to the conversation
-      await submitConversation(chunk, i + 1, file.name);
-
-      // Update the progress bar
-      progressBar.style.width = `${((i + 1) / numChunks) * 100}%`;
-
-      // Wait for ChatGPT to be ready
-      let chatgptReady = false;
-      while (!chatgptReady) {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        chatgptReady = !document.querySelector(
-          ".text-2xl > span:not(.invisible)"
-        );
-      }
-    }
-
-    // Finish updating the progress bar
-    progressBar.style.backgroundColor = "#32a9db";
+    handleFileChange(input, progressBar);
   });
-
-  // Click the input element to trigger the file selection dialog
   input.click();
-});
+}
 
-// Define the submitConversation function
 async function submitConversation(text, part, filename) {
   const textarea = document.querySelector("textarea[tabindex='0']");
   const enterKeyEvent = new KeyboardEvent("keydown", {
@@ -104,19 +143,50 @@ async function submitConversation(text, part, filename) {
   textarea.dispatchEvent(enterKeyEvent);
 }
 
-// Periodically check if the button has been added to the page and add it if it hasn't
-const targetSelector =
-  ".flex.flex-col.w-full.py-2.flex-grow.md\\:py-3.md\\:pl-4";
+async function handleFileChange(input, progressBar) {
+  progressBar.style.width = "0%";
+  progressBar.classList.add('progress-bar-loading');
+
+  const file = input.files[0];
+  const text = await file.text();
+
+  const chunkSize = parseInt(chunkSizeInput.value);
+  const numChunks = Math.ceil(text.length / chunkSize);
+
+  for (let i = 0; i < numChunks; i++) {
+    const chunk = text.slice(i * chunkSize, (i + 1) * chunkSize);
+    await submitConversation(chunk, i + 1, file.name);
+    progressBar.style.width = `${((i + 1) / numChunks) * 100}%`;
+    await waitForChatGPT();
+  }
+
+  progressBar.classList.remove('progress-bar-loading');
+  progressBar.classList.add('progress-bar-complete');
+}
+
+async function waitForChatGPT() {
+  let chatgptReady = false;
+  while (!chatgptReady) {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    chatgptReady = !document.querySelector(".text-2xl > span:not(.invisible)");
+  }
+}
+
+// Main Code
+const button = createButton();
+const { progressContainer, progressBar } = createProgressBar();
+const chunkSizeLabel = createChunkSizeInput();
+
+button.addEventListener("click", async () => {
+  handleButtonClick(progressBar);
+});
+
+const targetSelector = ".flex.flex-col.w-full.py-2.flex-grow.md\\:py-3.md\\:pl-4";
 const intervalId = setInterval(() => {
   const targetElement = document.querySelector(targetSelector);
   if (targetElement && !targetElement.contains(button)) {
-    // Insert the button before the target element
-    targetElement.parentNode.insertBefore(button, targetElement);
-
-    // Insert the progress bar container before the target element
     targetElement.parentNode.insertBefore(progressContainer, targetElement);
-
-    // Insert the chunk size label and input before the target element
+    targetElement.parentNode.insertBefore(button, targetElement);
     targetElement.parentNode.insertBefore(chunkSizeLabel, targetElement);
   }
 }, 5000);
