@@ -36,7 +36,7 @@ chunkSizeInput.style.color = "black"; // Set the font color inside the input ele
 chunkSizeInput.style.fontSize = "14px"; // Set the font size inside the input element
 // Create the chunk size label
 const chunkSizeLabel = document.createElement("label");
-chunkSizeLabel.innerText = "Chunk Size: ";
+chunkSizeLabel.innerText = "Character Limit: ";
 chunkSizeLabel.appendChild(chunkSizeInput);
 chunkSizeLabel.style.color = "white"; // Set the font color of the label text
 
@@ -48,7 +48,7 @@ button.addEventListener("click", async () => {
   // Create the input element
   const input = document.createElement("input");
   input.type = "file";
-  input.accept = ".txt,.js,.py,.html,.css,.json,.csv";
+  input.accept = ".txt,.md,.js,.py,.html,.css,.json,.csv";
 
   // Add a change event listener to the input element
   input.addEventListener("change", async () => {
