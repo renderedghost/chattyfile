@@ -1,6 +1,5 @@
 {
-"update_url": "https://clients2.google.com/service/update2/crx",
-
+  "update_url": "http://0.0.0.0/",
   "name": "Chatty File Uploader",
   "version": "1.0",
   "manifest_version": 3,
