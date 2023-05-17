@@ -7,10 +7,11 @@ Chrome extentsion to upload large Plain Text `.txt`, Javascript `.js`,Python `.p
 1. Download the files
 2. Extract the zip files
 3. Open [chrome://extensions/](chrome://extensions/) in your browser
-4. Click `Load Unpacked` button in the top bar
-5. Navigate to the contents of the `/chattyfile` folder and press the `Select` to load the extension
-6. Open [https://chat.openai.com/](https://chat.openai.com/) in your browser
-7. You can now upload your file!
+4. Turn on `Developer mode` in the top bar.
+5. Click `Load Unpacked` in the new action bar that appears.
+6. Navigate to the contents of the `/chattyfile` folder and press the `Select` to load the extension
+7. Open [https://chat.openai.com/](https://chat.openai.com/) in your browser
+8. You can now upload your file!
 
 ## Install from Chrome Store
 
