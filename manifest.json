@@ -5,7 +5,6 @@
   "version": "1.0",
   "manifest_version": 3,
   "description": "Upload large Plain Text (.txt), Javascript (.js),Python (.py), HTML (.html),CSS (.css),JSON (.json), and Tabular (.csv) files in manageable pieces of 15000 characters or less.",
-  "permissions": ["*://chat.openai.com/*"],
   "action": {},
   "icons": {
     "16": "chatty-16.png",
