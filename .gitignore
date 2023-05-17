@@ -1,0 +1,24 @@
+# Ignore sensitive data
+config/secrets.yml
+.env
+
+# Ignore dependency directories for NPM and Yarn
+yarn.lock
+node_modules/
+
+# Ignore editor-specific files
+.vscode/
+*.sublime-workspace
+*.sublime-project
+.idea/
+*.iml
+
+# Ignore OS-specific files and directories
+.DS_Store
+*/.DS_Store
+.AppleDouble
+*/.AppleDouble
+.Trashes
+*/.Trashes
+__MACOSX/
+*/__MACOSX/
