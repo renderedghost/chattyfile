@@ -1,0 +1,21 @@
+{
+"update_url": "https://clients2.google.com/service/update2/crx",
+
+  "name": "Chatty File Uploader",
+  "version": "1.0",
+  "manifest_version": 3,
+  "description": "Upload large Plain Text (.txt), Javascript (.js),Python (.py), HTML (.html),CSS (.css),JSON (.json), and Tabular (.csv) files in manageable pieces of 15000 characters or less.",
+  "permissions": ["*://chat.openai.com/*"],
+  "action": {},
+  "icons": {
+    "16": "chatty-16.png",
+    "48": "chatty-48.png",
+    "128": "chatty-128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://chat.openai.com/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
