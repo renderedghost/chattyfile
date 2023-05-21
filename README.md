@@ -15,7 +15,7 @@
 
 # Install from Chrome Store
 
-```Coming soon```
+[Chatty File Uploader](https://chrome.google.com/webstore/detail/chatty-file-uploader/hkaeghidfjhncjnajpbmdhpcpfhkacmp)
 
 # How does it work?
 
